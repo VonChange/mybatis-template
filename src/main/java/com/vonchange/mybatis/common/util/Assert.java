@@ -53,6 +53,9 @@ import java.util.function.Supplier;
  * @since 1.1.2
  */
 public abstract class Assert {
+	private Assert(){
+		throw new IllegalStateException("Utility class");
+	}
 
 	/**
 	 * Assert a boolean expression, throwing an {@code IllegalStateException}
@@ -91,15 +94,7 @@ public abstract class Assert {
 		}
 	}
 
-	/**
-	 * Assert a boolean expression, throwing an {@code IllegalStateException}
-	 * if the expression evaluates to {@code false}.
-	 * @deprecated as of 4.3.7, in favor of {@link #state(boolean, String)}
-	 */
-	@Deprecated
-	public static void state(boolean expression) {
-		state(expression, "[Assertion failed] - this state invariant must be true");
-	}
+
 
 	/**
 	 * Assert a boolean expression, throwing an {@code IllegalArgumentException}
@@ -133,15 +128,7 @@ public abstract class Assert {
 		}
 	}
 
-	/**
-	 * Assert a boolean expression, throwing an {@code IllegalArgumentException}
-	 * if the expression evaluates to {@code false}.
-	 * @deprecated as of 4.3.7, in favor of {@link #isTrue(boolean, String)}
-	 */
-	@Deprecated
-	public static void isTrue(boolean expression) {
-		isTrue(expression, "[Assertion failed] - this expression must be true");
-	}
+
 
 	/**
 	 * Assert that an object is {@code null}.
@@ -173,14 +160,7 @@ public abstract class Assert {
 		}
 	}
 
-	/**
-	 * Assert that an object is {@code null}.
-	 * @deprecated as of 4.3.7, in favor of {@link #isNull(Object, String)}
-	 */
-	@Deprecated
-	public static void isNull( Object object) {
-		isNull(object, "[Assertion failed] - the object argument must be null");
-	}
+
 
 	/**
 	 * Assert that an object is not {@code null}.
@@ -212,17 +192,8 @@ public abstract class Assert {
 		}
 	}
 
-	/**
-	 * Assert that an object is not {@code null}.
-	 * @deprecated as of 4.3.7, in favor of {@link #notNull(Object, String)}
-	 */
-	@Deprecated
-	public static void notNull( Object object) {
-		notNull(object, "[Assertion failed] - this argument is required; it must not be null");
-	}
 
-
-
+	
 
 	/**
 	 * Assert that an array contains no {@code null} elements.

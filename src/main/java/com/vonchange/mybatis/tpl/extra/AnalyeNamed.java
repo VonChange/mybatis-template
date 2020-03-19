@@ -5,14 +5,10 @@ package com.vonchange.mybatis.tpl.extra;
  */
 public class AnalyeNamed {
     private String condition;
-    private Boolean needIf;
     private String type;
-    //private  Object value;
     /**
      * 1 String  2 其他 base 3:list 4.arr
      */
-    //private String type;
-    private String likeType;
     private  String namedFull;
     private String itemProperty;
     private  String link;
@@ -35,22 +31,10 @@ public class AnalyeNamed {
         this.condition = condition;
     }
 
-    public Boolean getNeedIf() {
-        return needIf;
-    }
-
-    public void setNeedIf(Boolean needIf) {
-        this.needIf = needIf;
-    }
 
 
-    public String getLikeType() {
-        return likeType;
-    }
 
-    public void setLikeType(String likeType) {
-        this.likeType = likeType;
-    }
+
 
     public String getNamedFull() {
         return namedFull;

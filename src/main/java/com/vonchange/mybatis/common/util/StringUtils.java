@@ -87,16 +87,7 @@ public class StringUtils {
         }
         return false;
     }
-    public static String StrList(List<String> strs, String split) {
-        if(null==strs||strs.size()==0){
-            return "";
-        }
-        StringBuffer fullStr = new StringBuffer();
-        for (String string : strs) {
-            fullStr.append(string).append(split);
-        }
-        return fullStr.substring(0, fullStr.length()-split.length());
-    }
+
     public static final char UNDERLINE='_';
     public static String camelToUnderline(String param){
         if (param==null||"".equals(param.trim())){
@@ -135,7 +126,6 @@ public class StringUtils {
                 value = String.valueOf(data.get(group));
             }
             replaceStrList.add(value);
-            //tplStr = tplStr.replace(m.group(), value);
         }
         tplStr= StringUtils.replaceEach(tplStr, patternList.toArray(new String[patternList.size()]), replaceStrList.toArray(new String[replaceStrList.size()]));
         return tplStr;
@@ -145,9 +135,7 @@ public class StringUtils {
         StringTemplateParser stp = new StringTemplateParser();
 
         return stp.parse(tplStr,macroName -> {
-           // public String resolve(String macroName) {
                 return ConvertUtil.toString(data.get(macroName));
-           // }
         });
     }
 
@@ -331,6 +319,5 @@ public class StringUtils {
         Map<String, Object> map = new HashMap<>();
         map.put("foo", "Jodd");
         map.put("dayName", "Sunday");
-        System.out.println(tpl(template,map));
     }
 }

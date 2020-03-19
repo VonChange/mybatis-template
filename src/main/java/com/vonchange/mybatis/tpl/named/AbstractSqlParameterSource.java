@@ -22,6 +22,9 @@ import com.vonchange.mybatis.common.util.Assert;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.vonchange.mybatis.config.Constant.PARAM_NOT_NULL;
+
+
 /**
  * Abstract base class for {@link SqlParameterSource} implementations.
  * Provides registration of SQL types per parameter.
@@ -42,7 +45,7 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 	 * @param sqlType the SQL type of the parameter
 	 */
 	public void registerSqlType(String paramName, int sqlType) {
-		Assert.notNull(paramName, "Parameter name must not be null");
+		Assert.notNull(paramName, PARAM_NOT_NULL);
 		this.sqlTypes.put(paramName, sqlType);
 	}
 
@@ -52,7 +55,7 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 	 * @param typeName the type name of the parameter
 	 */
 	public void registerTypeName(String paramName, String typeName) {
-		Assert.notNull(paramName, "Parameter name must not be null");
+		Assert.notNull(paramName, PARAM_NOT_NULL);
 		this.typeNames.put(paramName, typeName);
 	}
 
@@ -64,7 +67,7 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 	 */
 	@Override
 	public int getSqlType(String paramName) {
-		Assert.notNull(paramName, "Parameter name must not be null");
+		Assert.notNull(paramName, PARAM_NOT_NULL);
 		Integer sqlType = this.sqlTypes.get(paramName);
 		if (sqlType != null) {
 			return sqlType;
@@ -80,7 +83,7 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 	 */
 	@Override
 	public String getTypeName(String paramName) {
-		Assert.notNull(paramName, "Parameter name must not be null");
+		Assert.notNull(paramName, PARAM_NOT_NULL);
 		return this.typeNames.get(paramName);
 	}
 

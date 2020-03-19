@@ -24,17 +24,21 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by 冯昌义 on 2018/4/19.
  */
 public class EntityUtil {
-    public static final Map<String, EntityInfo> entityMap = new ConcurrentHashMap<>();
+    private static final Map<String, EntityInfo> entityMap = new ConcurrentHashMap<>();
     private static Logger logger = LoggerFactory.getLogger(EntityUtil.class);
     public static void initEntityInfo(Class<?> clazz) {
-        String entityName = clazz.getSimpleName();
-        if(null==entityMap.get(entityName)){
+        String entityName = clazz.getName();
+        if(!entityMap.containsKey(entityName)){
             initEntity(clazz, entityName);
         }
     }
 
+    public static  EntityInfo getEntityInfo(Class<?> clazz){
+        return entityMap.get(clazz.getName());
+    }
+
     private static  void initEntity(Class<?> clazz, String entityName) {
-        logger.debug("初始化{0}", entityName);
+        logger.debug("初始化 {}", entityName);
         EntityInfo entity = new EntityInfo();
         entity.setEntityName(entityName);
         Table table=clazz.getAnnotation(Table.class);

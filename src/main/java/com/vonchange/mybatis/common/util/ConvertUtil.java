@@ -74,10 +74,6 @@ public class ConvertUtil {
 	}
 
 
-	/*public static Date toDate(Object value) {
-		value = toNull(value);
-		return Converter.get()(value);
-	}*/
 
 	public static BigDecimal toBigDecimal(Object value) {
 		value = toNull(value);

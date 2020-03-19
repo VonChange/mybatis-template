@@ -4,5 +4,9 @@ import jodd.bean.BeanUtil;
 import jodd.bean.BeanUtilBean;
 
 public class Constant {
-    public static BeanUtil BeanUtils= new BeanUtilBean();
+    private Constant(){
+        throw new IllegalStateException("Utility class");
+    }
+    public static final BeanUtil BeanUtils= new BeanUtilBean();
+    public static final  String PARAM_NOT_NULL="Parameter name must not be null";
 }

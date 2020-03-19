@@ -34,7 +34,7 @@ public class MybatisTpl {
             sqlWithParam.setParams(null);
             return  sqlWithParam;
         }
-         sqlInXml= DynamicSql.dynamicSql(sqlInXml,parameter);//
+         sqlInXml= DynamicSql.dynamicSql(sqlInXml,parameter);
          sqlInXml=sqlInXml.trim();
          if(sqlInXml.contains("</")){
              sqlInXml="<script>"+sqlInXml+"</script>";
@@ -71,9 +71,10 @@ public class MybatisTpl {
          }
          List<ParameterMapping> list= boundSql.getParameterMappings();
          List<Object> argList= new ArrayList<>();
+         List<String> propertyNames = new ArrayList<>();
          if(null!=list&&!list.isEmpty()){
              Map<String,Object> param =new LinkedHashMap<>();
-             if(null!=boundSql.getParameterObject()&&boundSql.getParameterObject() instanceof  Map){
+             if(boundSql.getParameterObject() instanceof  Map){
                        param = (Map<String, Object>) boundSql.getParameterObject();
              }
              for (ParameterMapping parameterMapping: list) {
@@ -92,12 +93,14 @@ public class MybatisTpl {
                      value = metaObject.getValue(propertyName);
                  }
                  argList.add(value);
+                 propertyNames.add(propertyName);
              }
          }
          Object[] args=argList.toArray(new Object[argList.size()]);
          String sql=boundSql.getSql();
          sqlWithParam.setSql(sql);
          sqlWithParam.setParams(args);
+         sqlWithParam.setPropertyNames(propertyNames);
          return sqlWithParam;
      }
 
