@@ -12,9 +12,13 @@ public class EntityField {
 	private Boolean isBaseType=false;
 	private Boolean isColumn=false;
 	private Boolean isId=false;
-	private  String function;
+	//private  String function;
 	//private Boolean ignoreDupUpdate;
 	private Boolean updateNotNull;
+	private String insertIfNull;
+	private String insertIfNullFunc;
+	private String updateIfNull;
+	private String updateIfNullFunc;
 	public String getFieldName() {
 		return fieldName;
 	}
@@ -60,11 +64,35 @@ public class EntityField {
 		this.updateNotNull = updateNotNull;
 	}
 
-	public String getFunction() {
-		return function;
+	public String getInsertIfNull() {
+		return insertIfNull;
 	}
 
-	public void setFunction(String function) {
-		this.function = function;
+	public void setInsertIfNull(String insertIfNull) {
+		this.insertIfNull = insertIfNull;
+	}
+
+	public String getInsertIfNullFunc() {
+		return insertIfNullFunc;
+	}
+
+	public void setInsertIfNullFunc(String insertIfNullFunc) {
+		this.insertIfNullFunc = insertIfNullFunc;
+	}
+
+	public String getUpdateIfNull() {
+		return updateIfNull;
+	}
+
+	public void setUpdateIfNull(String updateIfNull) {
+		this.updateIfNull = updateIfNull;
+	}
+
+	public String getUpdateIfNullFunc() {
+		return updateIfNullFunc;
+	}
+
+	public void setUpdateIfNullFunc(String updateIfNullFunc) {
+		this.updateIfNullFunc = updateIfNullFunc;
 	}
 }

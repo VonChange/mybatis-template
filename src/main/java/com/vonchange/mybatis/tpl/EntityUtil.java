@@ -1,8 +1,8 @@
 package com.vonchange.mybatis.tpl;
 
 import com.vonchange.mybatis.tpl.annotation.ColumnNot;
-
-
+import com.vonchange.mybatis.tpl.annotation.InsertIfNull;
+import com.vonchange.mybatis.tpl.annotation.UpdateIfNull;
 import com.vonchange.mybatis.tpl.annotation.UpdateNotNull;
 import com.vonchange.mybatis.tpl.model.EntityField;
 import com.vonchange.mybatis.tpl.model.EntityInfo;
@@ -89,6 +89,14 @@ public class EntityUtil {
                 }
                 if (annotation instanceof UpdateNotNull) {
                     entityField.setUpdateNotNull(true);
+                }
+                if (annotation instanceof InsertIfNull) {
+                    entityField.setInsertIfNull(((InsertIfNull) annotation).value());
+                    entityField.setInsertIfNullFunc(((InsertIfNull) annotation).function());
+                }
+                if (annotation instanceof UpdateIfNull) {
+                    entityField.setUpdateIfNull(((UpdateIfNull) annotation).value());
+                    entityField.setUpdateIfNullFunc(((UpdateIfNull) annotation).function());
                 }
             }
             entityFieldMap.put(fieldName, entityField);
