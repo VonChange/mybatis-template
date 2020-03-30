@@ -24,18 +24,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * {@link SqlParameterSource} implementation that holds a given Map of parameters.
+ *  implementation that holds a given Map of parameters.
  *
  * <p>This class is intended for passing in a simple Map of parameter values
- * to the methods of the {@link } class.
+ * to the methods of the  class.
  *
  * <p>The {@code addValue} methods on this class will make adding several values
  * easier. The methods return a reference to the {@link MapSqlParameterSource}
  * itself, so you can chain several method calls together within a single statement.
  *
- * @author Thomas Risberg
- * @author Juergen Hoeller
- * @since 2.0
  */
 public class MapSqlParameterSource extends AbstractSqlParameterSource {
 

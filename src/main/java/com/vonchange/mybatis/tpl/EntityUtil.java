@@ -1,9 +1,6 @@
 package com.vonchange.mybatis.tpl;
 
-import com.vonchange.mybatis.tpl.annotation.ColumnNot;
-import com.vonchange.mybatis.tpl.annotation.InsertIfNull;
-import com.vonchange.mybatis.tpl.annotation.UpdateIfNull;
-import com.vonchange.mybatis.tpl.annotation.UpdateNotNull;
+import com.vonchange.mybatis.tpl.annotation.*;
 import com.vonchange.mybatis.tpl.model.EntityField;
 import com.vonchange.mybatis.tpl.model.EntityInfo;
 import jodd.util.StringUtil;
@@ -70,10 +67,11 @@ public class EntityUtil {
             entityField.setTypeName(type.getSimpleName());
             Boolean isBaseType = ClassUtils.isBaseType(type);
             entityField.setIsBaseType(isBaseType);
-            if (isBaseType) {
+            if (Boolean.TRUE.equals(isBaseType)) {
                 entityField.setIsColumn(true);
             }
             entityField.setUpdateNotNull(false);
+            entityField.setIgnoreDupUpdate(false);
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation : annotations) {
                 if (annotation instanceof Id) {
@@ -97,6 +95,9 @@ public class EntityUtil {
                 if (annotation instanceof UpdateIfNull) {
                     entityField.setUpdateIfNull(((UpdateIfNull) annotation).value());
                     entityField.setUpdateIfNullFunc(((UpdateIfNull) annotation).function());
+                }
+                if (annotation instanceof UpdateDuplicateKeyIgnore) {
+                    entityField.setIgnoreDupUpdate(true);
                 }
             }
             entityFieldMap.put(fieldName, entityField);

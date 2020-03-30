@@ -79,7 +79,7 @@ public class ConvertUtil {
 		value = toNull(value);
 		return Converter.get().toBigDecimal(value);
 	}
-
+	@SuppressWarnings("unchecked")
 	public static <T> T toObject(Object value, Class<?> targetType) {
 		if (null == value) {
 			return null;
@@ -90,6 +90,7 @@ public class ConvertUtil {
 		String targetTypeName = targetType.getSimpleName();
 		return toObject(value,targetTypeName);
 	}
+	@SuppressWarnings("unchecked")
 	public static <T> T toObject(Object value, String targetTypeName) {
 		if (null == value) {
 			return null;

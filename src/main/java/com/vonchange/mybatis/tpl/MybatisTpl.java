@@ -26,7 +26,7 @@ public class MybatisTpl {
     private MybatisTpl() {
         throw new IllegalStateException("Utility class");
     }
-
+     @SuppressWarnings("unchecked")
      public static SqlWithParam generate(String sqlInXml, Map<String,Object> parameter){
          SqlWithParam sqlWithParam= new SqlWithParam();
         if(StringUtil.isBlank(sqlInXml)){

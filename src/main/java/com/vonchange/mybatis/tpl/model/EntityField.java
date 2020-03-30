@@ -19,6 +19,7 @@ public class EntityField {
 	private String insertIfNullFunc;
 	private String updateIfNull;
 	private String updateIfNullFunc;
+	private Boolean ignoreDupUpdate;
 	public String getFieldName() {
 		return fieldName;
 	}
@@ -28,6 +29,15 @@ public class EntityField {
 	public String getColumnName() {
 		return columnName;
 	}
+
+	public Boolean getIgnoreDupUpdate() {
+		return ignoreDupUpdate;
+	}
+
+	public void setIgnoreDupUpdate(Boolean ignoreDupUpdate) {
+		this.ignoreDupUpdate = ignoreDupUpdate;
+	}
+
 	public void setColumnName(String columnName) {
 		this.columnName = columnName;
 	}

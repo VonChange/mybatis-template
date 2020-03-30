@@ -19,7 +19,7 @@ package com.vonchange.mybatis.tpl.named;
 /**
  * Interface that defines common functionality for objects that can
  * offer parameter values for named SQL parameters, serving as argument
- * for {@link } operations.
+ * for  operations.
  *
  * <p>This interface allows for the specification of SQL type in addition
  * to parameter values. All parameter values and types are identified by
