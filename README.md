@@ -1,11 +1,17 @@
 mybatis 语法模板语言
 
-> public static SqlWithParam generate(String sqlInXml, Map<String,Object> parameter)
-  支持mybatis 语法 返回 待？号语句和 参数
-  
-> 扩展支持： 语法 其实就是替换成#{} 不建议使用 会略微减少性能
+####主要方法 com.vonchange.mybatis.tpl.MybatisTpl
+> public static SqlWithParam generate(String sqlInXml,
+> Map<String,Object> parameter) 支持mybatis语法 返回带?号sql语句和参数
 
-> 自定义语法扩展 
-  {@and a.create_time = create_time}  if null 判断 
-  {@and a.create_time =,= create_time}    可变条件查询 比如 create_time_like  ("create_time_gt","");
-  {@and a.create_time =,like create_time}  可变条件查询 只允许=号和 like 操作
+
+> 偷懒简化 if test 和in查询 识别 {@开头
+
+1. {@and id in idList} 等于 <if test="null!=idList and idList.size>0">
+  and id in <foreach collection="idList" index="index" item="item"
+  open="(" separator="," close=")">#{item}</foreach></if> 
+  
+2. {@and user_name <> userName} 等于 <if test="null!=userName and
+   ''!=userName"> and user_name <> #{userName} </if> 
+   
+3. in 查询List实体下的属性 {@and id in userList:id} 
