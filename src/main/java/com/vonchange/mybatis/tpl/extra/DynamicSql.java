@@ -93,13 +93,7 @@ public class DynamicSql {
     }
 
     private static Object getValue(Map<String, Object> param, String named) {
-        Object value;
-        try {
-            value = Constant.BeanUtils.getProperty(param, named);
-        } catch (Exception e) {
-            return null;
-        }
-        return value;
+        return  Constant.BeanUtilSilent.getProperty(param,named);
     }
 
     private static String getValueType(Object value) {
