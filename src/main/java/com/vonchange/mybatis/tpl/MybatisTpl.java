@@ -1,10 +1,11 @@
 package com.vonchange.mybatis.tpl;
 
 
+import com.vonchange.mybatis.common.util.ConvertUtil;
+import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.tpl.exception.MybatisMinRuntimeException;
 import com.vonchange.mybatis.tpl.extra.DynamicSql;
 import com.vonchange.mybatis.tpl.model.SqlWithParam;
-import com.vonchange.mybatis.common.util.StringUtils;
 import jodd.util.StringUtil;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.ParameterMapping;
@@ -23,6 +24,7 @@ import java.util.*;
  */
 public class MybatisTpl {
     private static   Logger logger = LoggerFactory.getLogger(MybatisTpl.class);
+    public static final String MARKDOWN_SQL_ID ="markdown_sql_id";
     private MybatisTpl() {
         throw new IllegalStateException("Utility class");
     }
@@ -44,6 +46,7 @@ public class MybatisTpl {
          if(null==parameter){
              parameter=new LinkedHashMap<>();
          }
+         String id =null;
          LanguageDriver languageDriver = new XMLLanguageDriver();
          Configuration configuration= new Configuration();
          Properties properties= new Properties();
@@ -69,6 +72,10 @@ public class MybatisTpl {
          if(boundSql.getSql().contains("#{")){
              return generate(boundSql.getSql(),parameter);
          }
+         if(parameter.containsKey(MARKDOWN_SQL_ID)){
+             id= ConvertUtil.toString(parameter.get(MARKDOWN_SQL_ID));
+             parameter.remove(MARKDOWN_SQL_ID);
+         }
          List<ParameterMapping> list= boundSql.getParameterMappings();
          List<Object> argList= new ArrayList<>();
          List<String> propertyNames = new ArrayList<>();
@@ -88,7 +95,7 @@ public class MybatisTpl {
                  }else {
                      MetaObject metaObject = configuration.newMetaObject(param);
                      if(!metaObject.hasGetter(propertyName)){
-                         throw  new MybatisMinRuntimeException(propertyName+"占位符值不存在!");
+                         throw  new MybatisMinRuntimeException(id+" "+propertyName+" placeholder not found");
                      }
                      value = metaObject.getValue(propertyName);
                  }
@@ -96,7 +103,7 @@ public class MybatisTpl {
                  propertyNames.add(propertyName);
              }
          }
-         Object[] args=argList.toArray(new Object[argList.size()]);
+         Object[] args=argList.toArray();
          String sql=boundSql.getSql();
          sqlWithParam.setSql(sql);
          sqlWithParam.setParams(args);

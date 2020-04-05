@@ -1,6 +1,7 @@
 package com.vonchange.mybatis.tpl;
 
 import com.vonchange.mybatis.tpl.annotation.*;
+import com.vonchange.mybatis.tpl.clazz.ClazzUtils;
 import com.vonchange.mybatis.tpl.model.EntityField;
 import com.vonchange.mybatis.tpl.model.EntityInfo;
 import jodd.util.StringUtil;
@@ -26,7 +27,7 @@ public class EntityUtil {
     public static void initEntityInfo(Class<?> clazz) {
         String entityName = clazz.getName();
         if(!entityMap.containsKey(entityName)){
-            initEntity(clazz, entityName);
+            initEntity(clazz);
         }
     }
 
@@ -34,17 +35,20 @@ public class EntityUtil {
         return entityMap.get(clazz.getName());
     }
 
-    private static  void initEntity(Class<?> clazz, String entityName) {
-        logger.debug("初始化 {}", entityName);
+    private static  void initEntity(Class<?> clazz) {
+        logger.debug("初始化 {}", clazz.getName());
         EntityInfo entity = new EntityInfo();
-        entity.setEntityName(entityName);
         Table table=clazz.getAnnotation(Table.class);
         String tableName=null;
         if(null!=table){
             tableName=table.name();
         }
         if(StringUtil.isBlank(tableName)){
-            tableName= OrmUtil.toSql(entityName);
+            String tableEntity= clazz.getSimpleName();
+            if(clazz.getSimpleName().toLowerCase().endsWith("do")){
+                tableEntity=clazz.getSimpleName().substring(0,clazz.getSimpleName().length()-2);
+            }
+            tableName= OrmUtil.toSql(tableEntity);
         }
         entity.setTableName(tableName);
         Field[] fileds = clazz.getDeclaredFields();// 只有本类
@@ -65,7 +69,7 @@ public class EntityUtil {
             Class<?> type = field.getType();
             entityField.setColumnName(columnName);
             entityField.setTypeName(type.getSimpleName());
-            Boolean isBaseType = ClassUtils.isBaseType(type);
+            Boolean isBaseType = ClazzUtils.isBaseType(type);
             entityField.setIsBaseType(isBaseType);
             if (Boolean.TRUE.equals(isBaseType)) {
                 entityField.setIsColumn(true);
@@ -103,6 +107,6 @@ public class EntityUtil {
             entityFieldMap.put(fieldName, entityField);
         }
         entity.setFieldMap(entityFieldMap);
-        entityMap.put(entityName, entity);
+        entityMap.put(clazz.getName(), entity);
     }
 }

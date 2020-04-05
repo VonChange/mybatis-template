@@ -4,14 +4,13 @@ package com.vonchange.mybatis.tpl;
 import com.vonchange.mybatis.common.util.StringUtils;
 
 /**
- * Orm组件
+ * Orm field
  *
  */
 public class OrmUtil {
 	/**
-	 * _转大写
-	 * 
-	 * @param colName
+	 * _ to up
+	 *
 	 */
 	public static   String toFiled(String colName) {
 		return  toUp(colName);
@@ -41,10 +40,8 @@ public class OrmUtil {
 
 
 	/**
-	 * Hql转成sql
+	 * Hql to sql
 	 *
-	 * @param myHql
-	 * @return sql
 	 */
 	public static String toSql(String myHql) {
 			StringBuilder sb = new StringBuilder();
@@ -53,7 +50,7 @@ public class OrmUtil {
 			for (int i = 0; i < myHql.length(); i++) {
 				char cur = myHql.charAt(i);
 				if (cur == '_') {
-					throw new RuntimeException("不允许使用数据库字段  _ !");
+					throw new RuntimeException("not allow  _ !");
 				}
 				if (cur == ':') {
 					flag = true;
@@ -81,10 +78,7 @@ public class OrmUtil {
 	}
 
 	/**
-	 * 数据库表名转实体名
-	 * 
-	 * @param tableName
-	 * @return 实体名
+	 * toEntity
 	 */
 	public static String toEntity(String tableName) {
 		return StringUtils.capitalize(toUp(tableName));
