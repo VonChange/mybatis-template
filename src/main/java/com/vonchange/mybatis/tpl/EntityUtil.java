@@ -59,7 +59,7 @@ public class EntityUtil {
             Class<?> type = field.getType();
             Boolean isBaseType = ClazzUtils.isBaseType(type);
             String fieldName = field.getName();
-            if(entityFieldMap.containsKey(fieldName)){
+            if(Boolean.FALSE.equals(isBaseType)||entityFieldMap.containsKey(fieldName)){
                 continue;
             }
             EntityField entityField = new EntityField();
@@ -113,9 +113,10 @@ public class EntityUtil {
     }
 
     private static void getFieldList(Class<?> clazz, List<Field> fieldList) {
+        fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
         if(null!=clazz.getSuperclass()){
             getFieldList(clazz.getSuperclass(), fieldList);
         }
-        fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+
     }
 }
