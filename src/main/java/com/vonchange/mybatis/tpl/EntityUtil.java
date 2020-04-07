@@ -13,8 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -51,12 +50,19 @@ public class EntityUtil {
             tableName= OrmUtil.toSql(tableEntity);
         }
         entity.setTableName(tableName);
-        Field[] fileds = clazz.getDeclaredFields();// 只有本类
+        List<Field> fieldList = new ArrayList<>();
+        getFieldList(clazz,fieldList);
+                //clazz.getDeclaredFields();// 只有本类
         Map<String, EntityField> entityFieldMap = new LinkedHashMap<>();
-        Column column=null;
-        for (Field field : fileds) {
-            EntityField entityField = new EntityField();
+        Column column;
+        for (Field field : fieldList) {
+            Class<?> type = field.getType();
+            Boolean isBaseType = ClazzUtils.isBaseType(type);
             String fieldName = field.getName();
+            if(entityFieldMap.containsKey(fieldName)){
+                continue;
+            }
+            EntityField entityField = new EntityField();
             entityField.setFieldName(fieldName);
             column=field.getAnnotation(Column.class);
             String columnName =null;
@@ -66,28 +72,24 @@ public class EntityUtil {
             if(StringUtil.isBlank(columnName)){
                 columnName = OrmUtil.toSql(fieldName);
             }
-            Class<?> type = field.getType();
             entityField.setColumnName(columnName);
             entityField.setTypeName(type.getSimpleName());
-            Boolean isBaseType = ClazzUtils.isBaseType(type);
             entityField.setIsBaseType(isBaseType);
-            if (Boolean.TRUE.equals(isBaseType)) {
-                entityField.setIsColumn(true);
-            }
+            entityField.setIsColumn(true);
             entityField.setUpdateNotNull(false);
             entityField.setIgnoreDupUpdate(false);
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation : annotations) {
+                if (annotation instanceof ColumnNot) {
+                    entityField.setIsColumn(false);
+                    continue;
+                }
                 if (annotation instanceof Id) {
                     entityField.setIsId(true);
                     entity.setIdFieldName(fieldName);
                     entity.setIdColumnName(columnName);
                     entity.setIdType(type.getSimpleName());
-                    continue;
-                }
-                if (annotation instanceof ColumnNot) {
-                    entityField.setIsColumn(false);
-                    continue;
+                   // continue;
                 }
                 if (annotation instanceof UpdateNotNull) {
                     entityField.setUpdateNotNull(true);
@@ -108,5 +110,12 @@ public class EntityUtil {
         }
         entity.setFieldMap(entityFieldMap);
         entityMap.put(clazz.getName(), entity);
+    }
+
+    private static void getFieldList(Class<?> clazz, List<Field> fieldList) {
+        if(null!=clazz.getSuperclass()){
+            getFieldList(clazz.getSuperclass(), fieldList);
+        }
+        fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
     }
 }

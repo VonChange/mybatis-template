@@ -123,9 +123,8 @@ public class DynamicSql {
         if ("in".equals(analyeNamed.getCondition())) {
             named = in(analyeNamed.getNamedFull(), analyeNamed.getItemProperty());
         }
-        if (analyeNamed.getCondition().contains("like")){
-            named = like(analyeNamed.getNamedFull(), analyeNamed.getCondition(), dialog);
-            analyeNamed.setCondition("like");
+        if (analyeNamed.getCondition().equals("like")){
+            named = like(analyeNamed, dialog);
         }
         String content = format(" {0} {1} {2} {3} ", analyeNamed.getLink(), analyeNamed.getColumn(), analyeNamed.getCondition(), named);
         String ifStr = format("<if test=\"null!={0}\">", analyeNamed.getNamedFull());
@@ -142,7 +141,11 @@ public class DynamicSql {
         return format("{0} {1} </if>", ifStr, content);
     }
 
-    private static String like(String named, String likeType, String dialog) {
+    private static String like(AnalyeNamed analyeNamed,String dialog) {
+        String named=analyeNamed.getNamedFull();
+        boolean all=!named.contains("%");
+        boolean left = named.startsWith("%");
+        boolean right =named.endsWith("%");
         String str = "CONCAT(''%'',#'{'{0}'}',''%'') ";
         if (dialog.equals(SqlCommentUtil.Dialect.ORACLE)) {
             str = "''%''||#'{'{0}'}'||''%''";
@@ -150,8 +153,12 @@ public class DynamicSql {
         if (dialog.equals(SqlCommentUtil.Dialect.BASE)) {
             str = "''%$'{'{0}'}'%''";
         }
-        if ("like".equals(likeType) || "5like5".equals(likeType)) {
+        if (all) {
             return format(str, named);
+        }
+        if(left&&right){
+            analyeNamed.setNamedFull(named.substring(1,named.length()-1));
+            return format(str, analyeNamed.getNamedFull());
         }
         str = " CONCAT(#'{'{0}'}',''%'') ";
         if (dialog.equals(SqlCommentUtil.Dialect.ORACLE)) {
@@ -160,8 +167,9 @@ public class DynamicSql {
         if (dialog.equals(SqlCommentUtil.Dialect.BASE)) {
             str = "''$'{'{0}'}'%''";
         }
-        if ("like5".equals(likeType)) {
-            return format(str, named);
+        if (right) {
+            analyeNamed.setNamedFull(named.substring(0,named.length()-1));
+            return format(str, analyeNamed.getNamedFull());
         }
         str = "CONCAT(''%'',#'{'{0}'}') ";
         if (dialog.equals(SqlCommentUtil.Dialect.ORACLE)) {
@@ -170,8 +178,9 @@ public class DynamicSql {
         if (dialog.equals(SqlCommentUtil.Dialect.BASE)) {
             str = "''%$'{'{0}'}'";
         }
-        if ("5like".equals(likeType)) {
-            return format(str, named);
+        if (left) {
+            analyeNamed.setNamedFull(named.substring(1));
+            return format(str, analyeNamed.getNamedFull());
         }
         return format("#'{'{0}'}'", named);
     }
