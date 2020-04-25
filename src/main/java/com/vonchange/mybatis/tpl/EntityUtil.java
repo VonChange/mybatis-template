@@ -1,10 +1,10 @@
 package com.vonchange.mybatis.tpl;
 
+import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.tpl.annotation.*;
 import com.vonchange.mybatis.tpl.clazz.ClazzUtils;
 import com.vonchange.mybatis.tpl.model.EntityField;
 import com.vonchange.mybatis.tpl.model.EntityInfo;
-import jodd.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ public class EntityUtil {
         if(null!=table){
             tableName=table.name();
         }
-        if(StringUtil.isBlank(tableName)){
+        if(StringUtils.isBlank(tableName)){
             String tableEntity= clazz.getSimpleName();
             if(clazz.getSimpleName().toLowerCase().endsWith("do")){
                 tableEntity=clazz.getSimpleName().substring(0,clazz.getSimpleName().length()-2);
@@ -69,7 +69,7 @@ public class EntityUtil {
             if(null!=column){
                 columnName=column.name();
             }
-            if(StringUtil.isBlank(columnName)){
+            if(StringUtils.isBlank(columnName)){
                 columnName = OrmUtil.toSql(fieldName);
             }
             entityField.setColumnName(columnName);

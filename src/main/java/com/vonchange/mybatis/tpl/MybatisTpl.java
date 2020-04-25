@@ -6,7 +6,7 @@ import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.tpl.exception.MybatisMinRuntimeException;
 import com.vonchange.mybatis.tpl.extra.DynamicSql;
 import com.vonchange.mybatis.tpl.model.SqlWithParam;
-import jodd.util.StringUtil;
+
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlSource;
@@ -31,7 +31,7 @@ public class MybatisTpl {
      @SuppressWarnings("unchecked")
      public static SqlWithParam generate(String sqlInXml, Map<String,Object> parameter){
          SqlWithParam sqlWithParam= new SqlWithParam();
-        if(StringUtil.isBlank(sqlInXml)){
+        if(StringUtils.isBlank(sqlInXml)){
             sqlWithParam.setSql(null);
             sqlWithParam.setParams(null);
             return  sqlWithParam;

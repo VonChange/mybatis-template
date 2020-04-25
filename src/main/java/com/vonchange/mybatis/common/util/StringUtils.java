@@ -16,9 +16,6 @@
  */
 package com.vonchange.mybatis.common.util;
 
-import jodd.template.StringTemplateParser;
-import jodd.util.StringUtil;
-
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -27,7 +24,32 @@ import java.util.regex.Pattern;
 public class StringUtils {
     public static String uuid() {
         String uuid = UUID.randomUUID().toString();
-        return StringUtil.remove(uuid, "-");
+        return remove(uuid, "-");
+    }
+    public static String remove(String s, String sub) {
+        int c = 0;
+        int sublen = sub.length();
+        if (sublen == 0) {
+            return s;
+        } else {
+            int i = s.indexOf(sub, c);
+            if (i == -1) {
+                return s;
+            } else {
+                StringBuilder sb = new StringBuilder(s.length());
+
+                do {
+                    sb.append(s, c, i);
+                    c = i + sublen;
+                } while((i = s.indexOf(sub, c)) != -1);
+
+                if (c < s.length()) {
+                    sb.append(s, c, s.length());
+                }
+
+                return sb.toString();
+            }
+        }
     }
     public static boolean isBlank(final CharSequence cs) {
         int strLen;
@@ -82,7 +104,7 @@ public class StringUtils {
             return true;
         }
         String str = String.valueOf(obj);
-        if (StringUtil.isBlank(str)) {
+        if (isBlank(str)) {
             return true;
         }
         return false;
@@ -126,17 +148,17 @@ public class StringUtils {
             }
             replaceStrList.add(value);
         }
-        tplStr= StringUtils.replaceEach(tplStr, patternList.toArray(new String[patternList.size()]), replaceStrList.toArray(new String[replaceStrList.size()]));
+        tplStr= replaceEach(tplStr, patternList.toArray(new String[patternList.size()]), replaceStrList.toArray(new String[replaceStrList.size()]));
         return tplStr;
     }
 
-    public static String tpl(String tplStr, Map<String, Object> data) {
+    /*public static String tpl(String tplStr, Map<String, Object> data) {
         StringTemplateParser stp = new StringTemplateParser();
 
         return stp.parse(tplStr,macroName -> {
                 return ConvertUtil.toString(data.get(macroName));
         });
-    }
+    }*/
 
     public static String capitalize(final String str) {
         int strLen;
@@ -311,12 +333,58 @@ public class StringUtils {
         final int strOffset = str.length() - suffix.length();
         return CharSequenceUtils.regionMatches(str, ignoreCase, strOffset, suffix, 0, suffix.length());
     }
-    public static void main(String[] args) {
+
+    public static boolean startsWithChar(String s, char c) {
+        if (s.length() == 0) {
+            return false;
+        } else {
+            return s.charAt(0) == c;
+        }
+    }
+    public static boolean containsOnlyDigitsAndSigns(CharSequence string) {
+        int size = string.length();
+
+        for(int i = 0; i < size; ++i) {
+            char c = string.charAt(i);
+            if (!isDigit(c) && c != '-' && c != '+') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public static boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
+    public static String[] split(final String src, final String delimiter) {
+        int maxparts = (src.length() / delimiter.length()) + 2;		// one more for the last
+        int[] positions = new int[maxparts];
+        int dellen = delimiter.length();
+
+        int i, j = 0;
+        int count = 0;
+        positions[0] = - dellen;
+        while ((i = src.indexOf(delimiter, j)) != -1) {
+            count++;
+            positions[count] = i;
+            j = i + dellen;
+        }
+        count++;
+        positions[count] = src.length();
+
+        String[] result = new String[count];
+
+        for (i = 0; i < count; i++) {
+            result[i] = src.substring(positions[i] + dellen, positions[i + 1]);
+        }
+        return result;
+    }
+/*    public static void main(String[] args) {
 
         String template = "Hello ${foo}. Today is ${dayName}.";
         // prepare data
         Map<String, Object> map = new HashMap<>();
         map.put("foo", "Jodd");
         map.put("dayName", "Sunday");
-    }
+    }*/
 }

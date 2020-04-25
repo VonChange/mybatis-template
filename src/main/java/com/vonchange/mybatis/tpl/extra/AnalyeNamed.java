@@ -5,23 +5,15 @@ package com.vonchange.mybatis.tpl.extra;
  */
 public class AnalyeNamed {
     private String condition;
-    private String type;
+    //private String type;
     /**
      * 1 String  2 其他 base 3:list 4.arr
      */
     private  String namedFull;
     private String itemProperty;
     private  String link;
-    private Object value;
+    //private Object value;
     private  String column;
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
 
     public String getCondition() {
         return condition;
@@ -68,11 +60,5 @@ public class AnalyeNamed {
         this.column = column;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 }

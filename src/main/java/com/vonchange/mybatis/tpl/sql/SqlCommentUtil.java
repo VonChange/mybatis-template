@@ -7,17 +7,17 @@ package com.vonchange.mybatis.tpl.sql;
  * Created by von change on 2018/4/19.
  */
 public class SqlCommentUtil {
-    public static   boolean getLower(String sql){
-        if(sql.contains("@lower")){
-            return true;
+    public static   boolean getLowerNo(String sql){
+        if(sql.contains("@lowerNo")){
+            return false;
         }
-        return  false;
+        return  true;
     }
-    public static  boolean getOrm(String sql){
-        if(sql.contains("@orm")){
-            return true;
+    public static  boolean getOrmNo(String sql){
+        if(sql.contains("@ormNo")){
+            return false;
         }
-        return  false;
+        return  true;
     }
     public  static  class Dialect{
         public static final  String MYSQL="mysql";
