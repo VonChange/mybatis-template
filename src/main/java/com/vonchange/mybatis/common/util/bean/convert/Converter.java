@@ -47,7 +47,7 @@ public class Converter {
 		convertMap.put(BigInteger.class,new BigIntegerConverter());
 		convertMap.put(Byte.class,new ByteConverter());
 		convertMap.put(Character.class,new CharacterConverter());
-		convertMap.put(DoubleConverter.class,new DoubleConverter());
+		convertMap.put(Double.class,new DoubleConverter());
 		convertMap.put(Float.class,new FloatConverter());
 		convertMap.put(Integer.class,new IntegerConverter());
 		convertMap.put(Long.class,new LongConverter());
