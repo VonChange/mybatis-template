@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>mybatis-template</artifactId>
-	<version>1.6.1</version>
+	<version>1.7</version>
 	<packaging>jar</packaging>
 	<name>mybatis-template</name>
 	<description>mybatis-template</description>
@@ -20,11 +20,6 @@
 			<artifactId>mybatis</artifactId>
 			<version>3.5.0</version>
 		</dependency>
-		<!--<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-bean</artifactId>
-			<version>5.1.4</version>
-		</dependency>-->
 		<dependency>
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
