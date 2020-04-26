@@ -26,8 +26,18 @@
 package com.vonchange.mybatis.common.util.bean.convert;
 
 
-import com.vonchange.mybatis.common.util.bean.convert.impl.*;
-
+import com.vonchange.mybatis.common.util.bean.convert.impl.BigDecimalConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.BigIntegerConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.BooleanConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.ByteConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.CharacterConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.DoubleConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.FloatConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.IntegerConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.LongConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.ShortConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.StringConverter;
+import com.vonchange.mybatis.tpl.exception.MybatisMinRuntimeException;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -62,14 +72,24 @@ public class Converter {
 		return CONVERTER;
 	}
 
+    public static <T> TypeConverter<T> getConvert(Class<?> type) {
+        for (Map.Entry<Class<?>,TypeConverter> entry:convertMap.entrySet()) {
+            if(entry.getKey().isAssignableFrom(type)){
+                return entry.getValue();
+            }
+        }
+        throw new MybatisMinRuntimeException("no converter found");
+    }
 	// ---------------------------------------------------------------- boolean
 
 	/**
 	 * Converts value to <code>Boolean</code>.
 	 */
 	public Boolean toBoolean(final Object value) {
-		return (Boolean) convertMap.get(Boolean.class).convert(value);
+		return (Boolean) getConvert(Boolean.class).convert(value);
 	}
+
+
 
 	/**
 	 * Converts value to <code>Boolean</code>. Returns default value
@@ -108,7 +128,7 @@ public class Converter {
 	 * Converts value to <code>Integer</code>.
 	 */
 	public Integer toInteger(final Object value) {
-		return (Integer) convertMap.get(Integer.class).convert(value);
+		return (Integer) getConvert(Integer.class).convert(value);
 	}
 
 	/**
@@ -148,7 +168,7 @@ public class Converter {
 	 * Converts value to <code>Long</code>.
 	 */
 	public Long toLong(final Object value) {
-		return (Long) convertMap.get(Long.class).convert(value);
+		return (Long) getConvert(Long.class).convert(value);
 	}
 
 	/**
@@ -188,7 +208,7 @@ public class Converter {
 	 * Converts value to <code>Float</code>.
 	 */
 	public Float toFloat(final Object value) {
-		return (Float) convertMap.get(Float.class).convert(value);
+		return (Float) getConvert(Float.class).convert(value);
 	}
 
 	/**
@@ -228,7 +248,7 @@ public class Converter {
 	 * Converts value to <code>Double</code>.
 	 */
 	public Double toDouble(final Object value) {
-		return (Double) convertMap.get(Double.class).convert(value);
+		return (Double) getConvert(Double.class).convert(value);
 	}
 
 	/**
@@ -268,7 +288,7 @@ public class Converter {
 	 * Converts value to <code>Short</code>.
 	 */
 	public Short toShort(final Object value) {
-		return (Short) convertMap.get(Short.class).convert(value);
+		return (Short) getConvert(Short.class).convert(value);
 	}
 
 	/**
@@ -308,7 +328,7 @@ public class Converter {
 	 * Converts value to <code>Character</code>.
 	 */
 	public Character toCharacter(final Object value) {
-		return (Character) convertMap.get(Character.class).convert(value);
+		return (Character) getConvert(Character.class).convert(value);
 	}
 
 	/**
@@ -348,7 +368,7 @@ public class Converter {
 	 * Converts value to <code>Byte</code>.
 	 */
 	public Byte toByte(final Object value) {
-		return (Byte) convertMap.get(Byte.class).convert(value);
+		return (Byte) getConvert(Byte.class).convert(value);
 	}
 
 	/**
@@ -392,7 +412,7 @@ public class Converter {
 	 * Converts value to <code>String</code>.
 	 */
 	public String toString(final Object value) {
-		return (String) convertMap.get(String.class).convert(value);
+		return (String) getConvert(String.class).convert(value);
 	}
 
 	/**
@@ -414,7 +434,7 @@ public class Converter {
 	 * Converts value to <code>BigInteger</code>.
 	 */
 	public BigInteger toBigInteger(final Object value) {
-		return (BigInteger) convertMap.get(BigInteger.class).convert(value);
+		return (BigInteger) getConvert(BigInteger.class).convert(value);
 	}
 
 	/**
@@ -433,7 +453,7 @@ public class Converter {
 	 * Converts value to <code>BigDecimal</code>.
 	 */
 	public BigDecimal toBigDecimal(final Object value) {
-		return (BigDecimal) convertMap.get(BigDecimal.class).convert(value);
+		return (BigDecimal) getConvert(BigDecimal.class).convert(value);
 	}
 
 	/**

@@ -4,6 +4,7 @@ package com.vonchange.mybatis.common.util;
 import com.vonchange.mybatis.common.util.bean.convert.Converter;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * 简单方式(效率高)实现类型转换,细节部分会不如ConvertUtils :ConvertUtils一次类型转换需要69ms 有点代价过高
@@ -71,6 +72,14 @@ public class ConvertUtil {
 		value = toNull(value);
 		return Converter.get().toByte(value);
 	}
+	public static  Character toCharacter(Object value){
+		value = toNull(value);
+		return Converter.get().toCharacter(value);
+	}
+	public static BigInteger toBigInteger(Object value){
+		value = toNull(value);
+		return Converter.get().toBigInteger(value);
+	}
 
 
 
@@ -86,40 +95,45 @@ public class ConvertUtil {
 		if(value.getClass().isAssignableFrom(targetType)){
 			return (T) value;
 		}
-		String targetTypeName = targetType.getSimpleName();
-		return toObject(value,targetTypeName);
+		return toObjectDetail(value,targetType);
 	}
 	@SuppressWarnings("unchecked")
-	public static <T> T toObject(Object value, String targetTypeName) {
+	public static <T> T toObjectDetail(Object value, Class<?> targetType) {
 		if (null == value) {
 			return null;
 		}
-		if (targetTypeName.equalsIgnoreCase("string")) {
+		if (targetType.isAssignableFrom(String.class)) {
 			return (T) ConvertUtil.toString(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("Integer")) {
+		if (targetType.isAssignableFrom(Integer.class)||targetType.isAssignableFrom(int.class)) {
 			return  (T)ConvertUtil.toInteger(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("Long")) {
+		if (targetType.isAssignableFrom(Long.class)||targetType.isAssignableFrom(long.class)) {
 			return  (T)ConvertUtil.toLong(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("Boolean")) {
+		if (targetType.isAssignableFrom(BigDecimal.class)) {
+			return  (T)ConvertUtil.toBigDecimal(value);
+		}
+		if (targetType.isAssignableFrom(Boolean.class)||targetType.isAssignableFrom(boolean.class)) {
 			return  (T)ConvertUtil.toBoolean(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("Float")) {
+		if (targetType.isAssignableFrom(Float.class)||targetType.isAssignableFrom(float.class)) {
 			return  (T)ConvertUtil.toFloat(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("Double")) {
+		if (targetType.isAssignableFrom(Double.class)||targetType.isAssignableFrom(double.class)) {
 			return  (T)ConvertUtil.toDouble(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("Short")) {
+		if (targetType.isAssignableFrom(Short.class)||targetType.isAssignableFrom(short.class)) {
 			return  (T)ConvertUtil.toShort(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("Byte")) {
+		if (targetType.isAssignableFrom(Byte.class)||targetType.isAssignableFrom(byte.class)) {
 			return  (T)ConvertUtil.toByte(value);
 		}
-		if (targetTypeName.equalsIgnoreCase("BigDecimal")) {
-			return  (T)ConvertUtil.toBigDecimal(value);
+		if (targetType.isAssignableFrom(Character.class)||targetType.isAssignableFrom(char.class)) {
+			return  (T)ConvertUtil.toCharacter(value);
+		}
+		if (targetType.isAssignableFrom(BigInteger.class)) {
+			return  (T)ConvertUtil.toBigInteger(value);
 		}
 		return  (T)value;
 	}
