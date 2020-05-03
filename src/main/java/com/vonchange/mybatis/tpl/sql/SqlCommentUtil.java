@@ -1,6 +1,7 @@
 package com.vonchange.mybatis.tpl.sql;
 
 
+import com.vonchange.mybatis.config.Constant;
 
 /**
  *
@@ -8,13 +9,13 @@ package com.vonchange.mybatis.tpl.sql;
  */
 public class SqlCommentUtil {
     public static   boolean getLowerNo(String sql){
-        if(sql.contains("@lowerNo")){
+        if(sql.contains(Constant.NOLOWER)){
             return false;
         }
         return  true;
     }
     public static  boolean getOrmNo(String sql){
-        if(sql.contains("@ormNo")){
+        if(sql.contains(Constant.NOORM)){
             return false;
         }
         return  true;
