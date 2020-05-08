@@ -57,7 +57,6 @@ public class EntityUtil {
         Map<String, EntityField> entityFieldMap = new LinkedHashMap<>();
         Column column;
         List<String> columnReturns = new ArrayList<>();
-        //List<String> fieldNameReturns = new ArrayList<>();
         for (Field field : fieldList) {
             Class<?> type = field.getType();
             Boolean isBaseType = ClazzUtils.isBaseType(type);

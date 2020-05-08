@@ -96,7 +96,6 @@ public class Converter {
             }
         }*/
         return convertMap.get(type);
-       // throw new MybatisMinRuntimeException("no converter found");
     }
 	// ---------------------------------------------------------------- boolean
 

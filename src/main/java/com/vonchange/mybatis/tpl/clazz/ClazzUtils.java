@@ -13,6 +13,7 @@ public class ClazzUtils {
 	 * isBaseType
 	 */
 	public static boolean isBaseType(Class<?> clazz) {
+		//||clazz== Time.class||clazz == Timestamp.class
 		return Converter.hasConvertKey(clazz)|| clazz.isPrimitive();
 	}
 

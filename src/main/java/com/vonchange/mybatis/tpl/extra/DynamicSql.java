@@ -1,12 +1,14 @@
 package com.vonchange.mybatis.tpl.extra;
 
-import com.vonchange.mybatis.tpl.clazz.ClazzUtils;
 import com.vonchange.mybatis.tpl.sql.SqlCommentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 冯昌义
@@ -80,9 +82,6 @@ public class DynamicSql {
             strList.set(1, "." + strList.get(1));
         }
         String named = strList.get(0).trim();
-       // Object value = getValue(param, named);
-       // analyeNamed.setValue(value);
-       // analyeNamed.setType(getValueType(value));
         analyeNamed.setNamedFull(named);
         analyeNamed.setCondition(resultList.get(2));
         analyeNamed.setItemProperty(strList.get(1));
@@ -92,27 +91,6 @@ public class DynamicSql {
     }
 
 
-    private static String getValueType(Object value) {
-        if (null == value) {
-            return "base";
-        }
-        if (value instanceof String) {
-            return "string";
-        }
-        if (Collection.class.isAssignableFrom(value.getClass())) {
-            return "list";
-        }
-        if (value instanceof Object[]) {
-            return "arr";
-        }
-        if (Map.class.isAssignableFrom(value.getClass())) {
-            return "map";
-        }
-        if (ClazzUtils.isBaseType(value.getClass())) {
-            return "base";
-        }
-        return "base";
-    }
 
     private static String workNamed(AnalyeNamed analyeNamed, String dialog) {
         String named = format("#'{'{0}'}'", analyeNamed.getNamedFull());
@@ -124,17 +102,6 @@ public class DynamicSql {
         }
         String content = format(" {0} {1} {2} {3} ", analyeNamed.getLink(), analyeNamed.getColumn(), analyeNamed.getCondition(), named);
         String ifStr = format("<if test=\"@com.vonchange.mybatis.tpl.MyOgnl@isNotEmpty({0})\">", analyeNamed.getNamedFull());
-      //<if test="null!={0} and ''''!={0}">
-       // String type = analyeNamed.getType();
-        /*if ("string".equals(type)) {
-            ifStr = format("<if test=\"null!={0} and ''''!={0}\">", analyeNamed.getNamedFull());
-        }*/
-     /*   if ("in".equals(analyeNamed.getCondition())) {
-            ifStr = format("<if test=\"null!={0} and {0}.size>0\">", analyeNamed.getNamedFull());
-        }*/
-       /* if ("arr".equals(type)) {
-            ifStr = format("<if test=\"null!={0} and {0}.length>0\">", analyeNamed.getNamedFull());
-        }*/
         return format("{0} {1} </if>", ifStr, content);
     }
 
