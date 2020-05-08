@@ -5,6 +5,10 @@ import com.vonchange.mybatis.common.util.bean.convert.Converter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 
 /**
  * 简单方式(效率高)实现类型转换,细节部分会不如ConvertUtils :ConvertUtils一次类型转换需要69ms 有点代价过高
@@ -87,6 +91,26 @@ public class ConvertUtil {
 		value = toNull(value);
 		return Converter.get().toBigDecimal(value);
 	}
+
+	public static LocalDateTime toLocalDateTime(Object value) {
+		value = toNull(value);
+		return Converter.get().toLocalDateTime(value);
+	}
+	public static LocalDate toLocalDate(Object value) {
+		value = toNull(value);
+		return Converter.get().toLocalDate(value);
+	}
+
+	public static LocalTime toLocalTime(Object value) {
+		value = toNull(value);
+		return Converter.get().toLocalTime(value);
+	}
+
+	public static Date toDate(Object value) {
+		value = toNull(value);
+		return Converter.get().toDate(value);
+	}
+
 	@SuppressWarnings("unchecked")
 	public static <T> T toObject(Object value, Class<?> targetType) {
 		if (null == value) {
@@ -134,6 +158,18 @@ public class ConvertUtil {
 		}
 		if (targetType.isAssignableFrom(BigInteger.class)) {
 			return  (T)ConvertUtil.toBigInteger(value);
+		}
+		if (targetType.isAssignableFrom(Date.class)) {
+			return  (T)ConvertUtil.toDate(value);
+		}
+		if (targetType.isAssignableFrom(LocalDateTime.class)) {
+			return  (T)ConvertUtil.toLocalDateTime(value);
+		}
+		if (targetType.isAssignableFrom(LocalDate.class)) {
+			return  (T)ConvertUtil.toLocalDate(value);
+		}
+		if (targetType.isAssignableFrom(LocalTime.class)) {
+			return  (T)ConvertUtil.toLocalTime(value);
 		}
 		return  (T)value;
 	}

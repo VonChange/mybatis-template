@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.lang.annotation.Annotation;
@@ -55,6 +56,8 @@ public class EntityUtil {
                 //clazz.getDeclaredFields();// 只有本类
         Map<String, EntityField> entityFieldMap = new LinkedHashMap<>();
         Column column;
+        List<String> columnReturns = new ArrayList<>();
+        //List<String> fieldNameReturns = new ArrayList<>();
         for (Field field : fieldList) {
             Class<?> type = field.getType();
             Boolean isBaseType = ClazzUtils.isBaseType(type);
@@ -89,7 +92,16 @@ public class EntityUtil {
                     entity.setIdFieldName(fieldName);
                     entity.setIdColumnName(columnName);
                     entity.setIdType(type.getSimpleName());
+                    if(null==entity.getGenColumn()){
+                        entity.setGenColumn(columnName);
+                    }
                    // continue;
+                }
+                if(annotation instanceof GeneratedValue){
+                    entity.setGenColumn(columnName);
+                }
+                if(annotation instanceof InsertReturn){
+                    columnReturns.add(columnName);
                 }
                 if (annotation instanceof UpdateNotNull) {
                     entityField.setUpdateNotNull(true);
@@ -108,6 +120,7 @@ public class EntityUtil {
             }
             entityFieldMap.put(fieldName, entityField);
         }
+        entity.setColumnReturns(columnReturns);
         entity.setFieldMap(entityFieldMap);
         entityMap.put(clazz.getName(), entity);
     }

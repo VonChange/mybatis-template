@@ -1,5 +1,6 @@
 package com.vonchange.mybatis.tpl.model;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +13,9 @@ public class EntityInfo {
 	private String idFieldName;
 	private String idColumnName;
 	private String idType;
+	//private List<String> fieldReturns;
+	private  List<String> columnReturns;
+	private String genColumn;
 	private Map<String, EntityField> fieldMap;
 
 	public String getEntityName() {
@@ -33,6 +37,8 @@ public class EntityInfo {
 	public String getIdFieldName() {
 		return idFieldName;
 	}
+
+
 
 	public void setIdFieldName(String idFieldName) {
 		this.idFieldName = idFieldName;
@@ -62,4 +68,21 @@ public class EntityInfo {
 		this.fieldMap = fieldMap;
 	}
 
+
+
+	public List<String> getColumnReturns() {
+		return columnReturns;
+	}
+
+	public void setColumnReturns(List<String> columnReturns) {
+		this.columnReturns = columnReturns;
+	}
+
+	public String getGenColumn() {
+		return genColumn;
+	}
+
+	public void setGenColumn(String genColumn) {
+		this.genColumn = genColumn;
+	}
 }

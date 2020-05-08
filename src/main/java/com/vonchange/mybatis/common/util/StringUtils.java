@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import static com.vonchange.mybatis.common.util.StringPool.EMPTY;
 public class StringUtils {
     public static String uuid() {
         String uuid = UUID.randomUUID().toString();
@@ -376,6 +376,95 @@ public class StringUtils {
 
         for (i = 0; i < count; i++) {
             result[i] = src.substring(positions[i] + dellen, positions[i + 1]);
+        }
+        return result;
+    }
+
+    /**
+     * Returns <code>true</code> if string contains only digits.
+     */
+    public static boolean containsOnlyDigits(final CharSequence string) {
+        int size = string.length();
+        for (int i = 0; i < size; i++) {
+            char c = string.charAt(i);
+            if (!isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Splits a string in several parts (tokens) that are separated by delimiter
+     * characters. Delimiter may contains any number of character and it is
+     * always surrounded by two strings.
+     *
+     * @param src    source to examine
+     * @param d      string with delimiter characters
+     *
+     * @return array of tokens
+     */
+    public static String[] splitc(final String src, final String d) {
+        if ((d.length() == 0) || (src.length() == 0)) {
+            return new String[] {src};
+        }
+        return splitc(src, d.toCharArray());
+    }
+    /**
+     * Splits a string in several parts (tokens) that are separated by delimiter
+     * characters. Delimiter may contains any number of character and it is
+     * always surrounded by two strings.
+     *
+     * @param src			source to examine
+     * @param delimiters	char array with delimiter characters
+     *
+     * @return array of tokens
+     */
+    public static String[] splitc(final String src, final char[] delimiters) {
+        if ((delimiters.length == 0) || (src.length() == 0) ) {
+            return new String[] {src};
+        }
+        char[] srcc = src.toCharArray();
+
+        int maxparts = srcc.length + 1;
+        int[] start = new int[maxparts];
+        int[] end = new int[maxparts];
+
+        int count = 0;
+
+        start[0] = 0;
+        int s = 0, e;
+        if (CharUtil.equalsOne(srcc[0], delimiters)) {	// string starts with delimiter
+            end[0] = 0;
+            count++;
+            s = CharUtil.findFirstDiff(srcc, 1, delimiters);
+            if (s == -1) {							// nothing after delimiters
+                return new String[] {EMPTY, EMPTY};
+            }
+            start[1] = s;							// new start
+        }
+        while (true) {
+            // find new end
+            e = CharUtil.findFirstEqual(srcc, s, delimiters);
+            if (e == -1) {
+                end[count] = srcc.length;
+                break;
+            }
+            end[count] = e;
+
+            // find new start
+            count++;
+            s = CharUtil.findFirstDiff(srcc, e, delimiters);
+            if (s == -1) {
+                start[count] = end[count] = srcc.length;
+                break;
+            }
+            start[count] = s;
+        }
+        count++;
+        String[] result = new String[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = src.substring(start[i], end[i]);
         }
         return result;
     }

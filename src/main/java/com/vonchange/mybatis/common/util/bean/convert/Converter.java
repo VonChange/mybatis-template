@@ -29,18 +29,26 @@ package com.vonchange.mybatis.common.util.bean.convert;
 import com.vonchange.mybatis.common.util.bean.convert.impl.BigDecimalConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.BigIntegerConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.BooleanConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.ByteArrayConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.ByteConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.CharacterConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.DateConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.DoubleConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.FloatConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.IntegerConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.LocalDateConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.LocalDateTimeConverter;
+import com.vonchange.mybatis.common.util.bean.convert.impl.LocalTimeConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.LongConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.ShortConverter;
 import com.vonchange.mybatis.common.util.bean.convert.impl.StringConverter;
-import com.vonchange.mybatis.tpl.exception.MybatisMinRuntimeException;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +71,11 @@ public class Converter {
 		convertMap.put(Long.class,new LongConverter());
 		convertMap.put(Short.class,new ShortConverter());
 		convertMap.put(String.class,new StringConverter());
+		convertMap.put(LocalDate.class,new LocalDateConverter());
+		convertMap.put(LocalDateTime.class,new LocalDateTimeConverter());
+		convertMap.put(LocalTime.class,new LocalTimeConverter());
+		convertMap.put(Date.class,new DateConverter());
+		convertMap.put(byte[].class,new ByteArrayConverter());
 	}
 
 	/**
@@ -72,13 +85,18 @@ public class Converter {
 		return CONVERTER;
 	}
 
+	public static boolean hasConvertKey(Class<?> type){
+		return convertMap.containsKey(type);
+	}
+
     public static <T> TypeConverter<T> getConvert(Class<?> type) {
-        for (Map.Entry<Class<?>,TypeConverter> entry:convertMap.entrySet()) {
+       /* for (Map.Entry<Class<?>,TypeConverter> entry:convertMap.entrySet()) {
             if(entry.getKey().isAssignableFrom(type)){
                 return entry.getValue();
             }
-        }
-        throw new MybatisMinRuntimeException("no converter found");
+        }*/
+        return convertMap.get(type);
+       // throw new MybatisMinRuntimeException("no converter found");
     }
 	// ---------------------------------------------------------------- boolean
 
@@ -462,6 +480,82 @@ public class Converter {
 	 */
 	public BigDecimal toBigDecimal(final Object value, final BigDecimal defaultValue) {
 		final BigDecimal result = toBigDecimal(value);
+		if (result == null) {
+			return defaultValue;
+		}
+		return result;
+	}
+
+	/**
+	 * Converts value to <code>LocalDate</code>.
+	 */
+	public LocalDate toLocalDate(final Object value) {
+		return (LocalDate) getConvert(LocalDate.class).convert(value);
+	}
+
+	/**
+	 * Converts value to <code>LocalDate</code>. Returns default value
+	 * when conversion result is <code>null</code>
+	 */
+	public LocalDate toLocalDate(final Object value, final LocalDate defaultValue) {
+		final LocalDate result = toLocalDate(value);
+		if (result == null) {
+			return defaultValue;
+		}
+		return result;
+	}
+	/**
+	 * Converts value to <code>LocalDateTime</code>.
+	 */
+	public LocalDateTime toLocalDateTime(final Object value) {
+		return (LocalDateTime) getConvert(LocalDateTime.class).convert(value);
+	}
+
+	/**
+	 * Converts value to <code>LocalDateTime</code>. Returns default value
+	 * when conversion result is <code>null</code>
+	 */
+	public LocalDateTime toLocalDateTime(final Object value, final LocalDateTime defaultValue) {
+		final LocalDateTime result = toLocalDateTime(value);
+		if (result == null) {
+			return defaultValue;
+		}
+		return result;
+	}
+
+
+	/**
+	 * Converts value to <code>LocalTime</code>.
+	 */
+	public LocalTime toLocalTime(final Object value) {
+		return (LocalTime) getConvert(LocalTime.class).convert(value);
+	}
+
+	/**
+	 * Converts value to <code>LocalTime</code>. Returns default value
+	 * when conversion result is <code>null</code>
+	 */
+	public LocalTime toLocalTime(final Object value, final LocalTime defaultValue) {
+		final LocalTime result = toLocalTime(value);
+		if (result == null) {
+			return defaultValue;
+		}
+		return result;
+	}
+
+	/**
+	 * Converts value to <code>Date</code>.
+	 */
+	public Date toDate(final Object value) {
+		return (Date) getConvert(Date.class).convert(value);
+	}
+
+	/**
+	 * Converts value to <code>LocalTime</code>. Returns default value
+	 * when conversion result is <code>null</code>
+	 */
+	public Date toDate(final Object value, final Date defaultValue) {
+		final Date result = toDate(value);
 		if (result == null) {
 			return defaultValue;
 		}
