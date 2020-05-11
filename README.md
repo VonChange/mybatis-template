@@ -9,7 +9,7 @@ mybatis 语法模板语言
 > Map<String,Object> parameter) 支持mybatis语法 返回带?号sql语句和参数
 
 
-> 偷懒简化 if test 和in查询 识别 {@开头
+> 偷懒简化 if test 和in查询 识别 {@开头 和原来mybatis写法可混用
 
 
 1. {@and id in idList} 等于
