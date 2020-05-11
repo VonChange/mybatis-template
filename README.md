@@ -1,5 +1,9 @@
 mybatis 语法模板语言
 
+#### 依赖于mybatis 
+
+> 只是使用了mybatis 模版引擎动态sql这部分功能 在此基础上做了扩展
+ 
 ####主要方法 com.vonchange.mybatis.tpl.MybatisTpl
 > public static SqlWithParam generate(String sqlInXml,
 > Map<String,Object> parameter) 支持mybatis语法 返回带?号sql语句和参数
