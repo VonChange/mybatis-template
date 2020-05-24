@@ -88,7 +88,7 @@ public class Converter {
 	public static boolean hasConvertKey(Class<?> type){
 		return convertMap.containsKey(type);
 	}
-
+	@SuppressWarnings("unchecked")
     public static <T> TypeConverter<T> getConvert(Class<?> type) {
        /* for (Map.Entry<Class<?>,TypeConverter> entry:convertMap.entrySet()) {
             if(entry.getKey().isAssignableFrom(type)){
