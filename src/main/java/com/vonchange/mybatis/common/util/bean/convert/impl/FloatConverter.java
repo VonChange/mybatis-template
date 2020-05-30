@@ -27,6 +27,7 @@ package com.vonchange.mybatis.common.util.bean.convert.impl;
 
 import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 
 /**
@@ -39,7 +40,7 @@ import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
  * </ul>
  * Number string may start with plus and minus sign.
  */
-public class FloatConverter implements TypeConverter<Float> {
+public class FloatConverter extends TypeConvertCommon<Float> implements TypeConverter<Float> {
 
 	public Float convert(final Object value) {
 		if (value == null) {

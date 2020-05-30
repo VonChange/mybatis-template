@@ -26,6 +26,7 @@
 package com.vonchange.mybatis.common.util.bean.convert.impl;
 
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 
 import java.sql.Clob;
@@ -44,7 +45,7 @@ import java.sql.SQLException;
  * <li>finally, <code>toString()</code> value is returned.</li>
  * </ul>
  */
-public class StringConverter implements TypeConverter<String> {
+public class StringConverter extends TypeConvertCommon<String> implements TypeConverter<String> {
 
 	@Override
 	public String convert(final Object value) {

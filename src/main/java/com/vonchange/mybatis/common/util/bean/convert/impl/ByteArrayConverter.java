@@ -3,6 +3,7 @@ package com.vonchange.mybatis.common.util.bean.convert.impl;
 import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.common.util.bean.convert.Converter;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 
 import java.sql.Blob;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ByteArrayConverter implements TypeConverter<byte[]> {
+public class ByteArrayConverter extends TypeConvertCommon<byte[]> implements TypeConverter<byte[]> {
 	public static final char[] NUMBER_DELIMITERS = new char[] {',', ';', '\n'};
 
 

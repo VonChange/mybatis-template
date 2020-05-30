@@ -27,6 +27,7 @@ package com.vonchange.mybatis.common.util.bean.convert.impl;
 
 
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 
 import java.math.BigDecimal;
@@ -40,7 +41,7 @@ import java.math.BigDecimal;
  * <li>object is converted to string, trimmed, and then converted if possible</li>
  * </ul>
  */
-public class BigDecimalConverter implements TypeConverter<BigDecimal> {
+public class BigDecimalConverter extends TypeConvertCommon<BigDecimal>  implements TypeConverter<BigDecimal> {
 
 	@Override
 	public BigDecimal convert(final Object value) {

@@ -28,6 +28,7 @@ package com.vonchange.mybatis.common.util.bean.convert.impl;
 
 import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 import com.vonchange.mybatis.common.util.time.TimeUtil;
 
@@ -38,7 +39,7 @@ import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
-public class LocalDateTimeConverter implements TypeConverter<LocalDateTime> {
+public class LocalDateTimeConverter extends TypeConvertCommon<LocalDateTime> implements TypeConverter<LocalDateTime> {
 	@Override
 	public LocalDateTime convert(Object value) {
 		if (value == null) {

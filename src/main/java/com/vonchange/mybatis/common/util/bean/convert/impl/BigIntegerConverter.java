@@ -26,6 +26,7 @@
 package com.vonchange.mybatis.common.util.bean.convert.impl;
 
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 
 import java.math.BigInteger;
@@ -39,7 +40,7 @@ import java.math.BigInteger;
  * <li>object is converted to string, trimmed, and then converted if possible</li>
  * </ul>
  */
-public class BigIntegerConverter implements TypeConverter<BigInteger> {
+public class BigIntegerConverter extends TypeConvertCommon<BigInteger> implements TypeConverter<BigInteger> {
 
 	public BigInteger convert(final Object value) {
 		if (value == null) {

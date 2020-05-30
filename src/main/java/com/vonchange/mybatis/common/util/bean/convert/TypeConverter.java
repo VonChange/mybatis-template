@@ -31,7 +31,6 @@ package com.vonchange.mybatis.common.util.bean.convert;
  * Object converter interface.
  *
  */
-@FunctionalInterface
 public interface TypeConverter<T> {
 
 	/**
@@ -50,16 +49,6 @@ public interface TypeConverter<T> {
 	/**
 	 * Converts object and returns default value if conversion fails.
 	 */
-	default T convert(final Object value, final T defaultValue) {
-		if (value == null) {
-			return defaultValue;
-		}
-		try {
-			return convert(value);
-		}
-		catch (Exception e) {
-			return defaultValue;
-		}
-	}
+	 T convert(final Object value, final T defaultValue);
 
 }

@@ -26,9 +26,19 @@
 package com.vonchange.mybatis.common.util.bean.convert.impl;
 
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 
-import static com.vonchange.mybatis.common.util.StringPool.*;
+import static com.vonchange.mybatis.common.util.StringPool.FALSE;
+import static com.vonchange.mybatis.common.util.StringPool.N;
+import static com.vonchange.mybatis.common.util.StringPool.NO;
+import static com.vonchange.mybatis.common.util.StringPool.OFF;
+import static com.vonchange.mybatis.common.util.StringPool.ON;
+import static com.vonchange.mybatis.common.util.StringPool.ONE;
+import static com.vonchange.mybatis.common.util.StringPool.TRUE;
+import static com.vonchange.mybatis.common.util.StringPool.Y;
+import static com.vonchange.mybatis.common.util.StringPool.YES;
+import static com.vonchange.mybatis.common.util.StringPool.ZERO;
 
 /**
  * Converts given object to <code>Boolean</code>.
@@ -41,7 +51,7 @@ import static com.vonchange.mybatis.common.util.StringPool.*;
  * for <code>false</code>.</li>
  * </ul>
  */
-public class BooleanConverter implements TypeConverter<Boolean> {
+public class BooleanConverter extends TypeConvertCommon<Boolean> implements TypeConverter<Boolean> {
 
 	public Boolean convert(final Object value) {
 		if (value == null) {

@@ -27,6 +27,7 @@ package com.vonchange.mybatis.common.util.bean.convert.impl;
 
 import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConversionException;
+import com.vonchange.mybatis.common.util.bean.convert.TypeConvertCommon;
 import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
 
 /**
@@ -40,7 +41,7 @@ import com.vonchange.mybatis.common.util.bean.convert.TypeConverter;
  * <li>if string is longer, and made of digits, try to convert it to int first</li>
  * </ul>
  */
-public class CharacterConverter implements TypeConverter<Character> {
+public class CharacterConverter extends TypeConvertCommon<Character> implements TypeConverter<Character> {
 
 	public Character convert(final Object value) {
 		if (value == null) {
