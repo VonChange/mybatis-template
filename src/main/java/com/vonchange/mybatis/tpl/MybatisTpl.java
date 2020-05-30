@@ -36,7 +36,7 @@ public class MybatisTpl {
             sqlWithParam.setParams(null);
             return  sqlWithParam;
         }
-         sqlInXml= DynamicSql.dynamicSql(sqlInXml,parameter);
+         sqlInXml= DynamicSql.dynamicSql(sqlInXml);
          sqlInXml=sqlInXml.trim();
          if(sqlInXml.contains("</")){
              sqlInXml="<script>"+sqlInXml+"</script>";
