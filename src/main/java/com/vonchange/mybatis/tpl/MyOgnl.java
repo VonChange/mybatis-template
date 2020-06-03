@@ -40,4 +40,5 @@ public class MyOgnl {
     public static boolean isNotEmpty(Object value){
         return !isEmpty(value);
     }
+
 }

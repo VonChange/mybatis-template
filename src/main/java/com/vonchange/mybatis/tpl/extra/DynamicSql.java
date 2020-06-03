@@ -91,6 +91,9 @@ public class DynamicSql {
     }
 
     private static String getModel(String model) {
+        if(model.contains("#{")){
+            return ifNull(model);
+        }
         model = model.trim();
         model = model.replaceAll("[\\s]+", " ");
         String[] moduleSubs = model.split(" ");
@@ -103,12 +106,9 @@ public class DynamicSql {
             return workNamed(analyeNamed);
         }
         //扩展只有判空
-        return ifNull(model);
+        return "";
     }
     private static String ifNull(String model){
-        if(!model.contains("#{")){
-            return "";
-        }
         SqlParamResult sqlParamResult = getParamFromModel(model);
         StringBuilder sb= new StringBuilder();
         for (String param:sqlParamResult.getParam()) {
@@ -215,7 +215,7 @@ public class DynamicSql {
         return format("{0} {1} </if>", ifStr, content);
     }
 
-    private static String like(AnalyeNamed analyeNamed) {
+    private static String likeOld(AnalyeNamed analyeNamed) {
         String named=analyeNamed.getNamedFull();
         boolean all=!named.contains("%");
         boolean left = named.startsWith("%");
@@ -239,6 +239,39 @@ public class DynamicSql {
             return format(str, analyeNamed.getNamedFull());
         }
         return format(PALCEHOLDERA, named);
+    }
+
+    /**
+     * bind 方式 能通用
+     */
+    private static String like(AnalyeNamed analyeNamed) {
+        String named=analyeNamed.getNamedFull();
+        boolean all=!named.contains("%");
+        boolean left = named.startsWith("%");
+        boolean right =named.endsWith("%");
+        // <bind name="usrName" value="'%' + name + '%'"/>
+        String str = "<bind name=\"{0}\" value=\"''%'' + {1} + ''%''\"/>  #'{'{2}'}";
+        if (all) {
+            return likeFormat(str, named,"_like");
+        }
+        if(left&&right){
+            analyeNamed.setNamedFull(named.substring(1,named.length()-1));
+            return likeFormat(str, analyeNamed.getNamedFull(),"_like");
+        }
+        str = "<bind name=\"{0}\" value=\"{1} + ''%''\"/>  #'{'{2}'}";
+        if (right) {
+            analyeNamed.setNamedFull(named.substring(0,named.length()-1));
+            return likeFormat(str, analyeNamed.getNamedFull(),"_rightLike");
+        }
+        str = "<bind name=\"{0}\" value=\"''%'' +{1} \"/>  #'{'{2}'}";
+        if (left) {
+            analyeNamed.setNamedFull(named.substring(1));
+            return likeFormat(str, analyeNamed.getNamedFull(),"_leftLike");
+        }
+        return format(PALCEHOLDERA, named);
+    }
+    private static String likeFormat(String tpl,String named,String type){
+        return format(tpl, named+type,named,named+type);
     }
 
     public static String in(String named, String itemProperty) {

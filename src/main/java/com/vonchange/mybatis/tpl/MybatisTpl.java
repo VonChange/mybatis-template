@@ -1,23 +1,26 @@
 package com.vonchange.mybatis.tpl;
 
 
+import com.vonchange.common.ibatis.mapping.BoundSql;
+import com.vonchange.common.ibatis.mapping.ParameterMapping;
+import com.vonchange.common.ibatis.mapping.SqlSource;
+import com.vonchange.common.ibatis.reflection.MetaObject;
+import com.vonchange.common.ibatis.scripting.LanguageDriver;
+import com.vonchange.common.ibatis.scripting.xmltags.XMLLanguageDriver;
 import com.vonchange.mybatis.common.util.ConvertUtil;
 import com.vonchange.mybatis.common.util.StringUtils;
 import com.vonchange.mybatis.tpl.exception.MybatisMinRuntimeException;
 import com.vonchange.mybatis.tpl.extra.DynamicSql;
 import com.vonchange.mybatis.tpl.model.SqlWithParam;
-
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.ParameterMapping;
-import org.apache.ibatis.mapping.SqlSource;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.scripting.LanguageDriver;
-import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
-import org.apache.ibatis.session.Configuration;
+import  com.vonchange.common.ibatis.session.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * mybatis 模版主要代码

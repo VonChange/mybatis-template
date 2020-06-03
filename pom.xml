@@ -16,15 +16,15 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.5.0</version>
+			<groupId>com.vonchange.common</groupId>
+			<artifactId>mybati</artifactId>
+			<version>3.5.2</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
-			<version>3.1.15</version>
-		</dependency>
+			<version>3.2.10</version>
+		</dependency>-->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
