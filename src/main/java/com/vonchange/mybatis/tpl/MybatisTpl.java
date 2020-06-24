@@ -7,12 +7,13 @@ import com.vonchange.common.ibatis.mapping.SqlSource;
 import com.vonchange.common.ibatis.reflection.MetaObject;
 import com.vonchange.common.ibatis.scripting.LanguageDriver;
 import com.vonchange.common.ibatis.scripting.xmltags.XMLLanguageDriver;
+import com.vonchange.common.ibatis.session.Configuration;
 import com.vonchange.mybatis.common.util.ConvertUtil;
 import com.vonchange.mybatis.common.util.StringUtils;
+import com.vonchange.mybatis.dialect.Dialect;
 import com.vonchange.mybatis.tpl.exception.MybatisMinRuntimeException;
 import com.vonchange.mybatis.tpl.extra.DynamicSql;
 import com.vonchange.mybatis.tpl.model.SqlWithParam;
-import  com.vonchange.common.ibatis.session.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,14 +33,14 @@ public class MybatisTpl {
         throw new IllegalStateException("Utility class");
     }
      @SuppressWarnings("unchecked")
-     public static SqlWithParam generate(String sqlInXml, Map<String,Object> parameter){
+     public static SqlWithParam generate(String sqlInXml, Map<String,Object> parameter, Dialect dialect){
          SqlWithParam sqlWithParam= new SqlWithParam();
         if(StringUtils.isBlank(sqlInXml)){
             sqlWithParam.setSql(null);
             sqlWithParam.setParams(null);
             return  sqlWithParam;
         }
-         sqlInXml= DynamicSql.dynamicSql(sqlInXml);
+         sqlInXml= DynamicSql.dynamicSql(sqlInXml,dialect);
          sqlInXml=sqlInXml.trim();
          if(sqlInXml.contains("</")){
              sqlInXml="<script>"+sqlInXml+"</script>";
@@ -73,7 +74,7 @@ public class MybatisTpl {
          }
 
          if(boundSql.getSql().contains("#{")){
-             return generate(boundSql.getSql(),parameter);
+             return generate(boundSql.getSql(),parameter,dialect);
          }
          if(parameter.containsKey(MARKDOWN_SQL_ID)){
              id= ConvertUtil.toString(parameter.get(MARKDOWN_SQL_ID));

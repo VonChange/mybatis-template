@@ -10,6 +10,7 @@ public class SqlWithParam {
     private String sql;
     private Object[] params;
     private List<String> propertyNames;
+    private  List<String> columnReturns;
 
     public String getSql() {
         return sql;
@@ -33,6 +34,14 @@ public class SqlWithParam {
 
     public void setParams(Object[] params) {
         this.params = params;
+    }
+
+    public List<String> getColumnReturns() {
+        return columnReturns;
+    }
+
+    public void setColumnReturns(List<String> columnReturns) {
+        this.columnReturns = columnReturns;
     }
 
     @Override

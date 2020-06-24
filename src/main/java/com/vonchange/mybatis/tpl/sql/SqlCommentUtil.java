@@ -20,7 +20,7 @@ public class SqlCommentUtil {
         }
         return  true;
     }
-    public  static  class Dialect{
+  /*  public  static  class Dialect{
         public static final  String MYSQL="mysql";
         public static final  String ORACLE="oracle";
         public static final  String BASE="base";
@@ -36,5 +36,5 @@ public class SqlCommentUtil {
             return Dialect.BASE;
         }
         return   Dialect.MYSQL;
-    }
+    }*/
 }

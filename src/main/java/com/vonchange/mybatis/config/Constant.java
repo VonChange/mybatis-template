@@ -10,4 +10,8 @@ public class Constant {
     public static final  String PARAM_NOT_NULL="Parameter name must not be null";
     public static final String NOLOWER = "@-lower";
     public static final String NOORM = "@-orm";
+    public static  class  Dialog{
+        public static final String MYSQL = "mysql";
+        public static final String ORACLE = "oracle";
+    }
 }
