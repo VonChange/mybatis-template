@@ -155,6 +155,11 @@ public class DynamicSql {
     }
     private static String getParamSql(String param,Dialect dialect){
         if(!param.contains(":")){
+            if(param.contains("%")){
+                AnalyeNamed analyeNamed = new AnalyeNamed();
+                analyeNamed.setNamedFull(param);
+                return like(analyeNamed,dialect);
+            }
             return format(PALCEHOLDERA, param);
         }
         String[] params =  param.split(":");
@@ -174,6 +179,9 @@ public class DynamicSql {
     }
     private static String getTrueParam(String param){
         if(!param.contains(":")){
+            if(param.contains("%")){
+                return param.replace("%","");
+            }
             return param;
         }
         String[] params =  param.split(":");
@@ -224,7 +232,6 @@ public class DynamicSql {
         boolean right =named.endsWith("%");
         LikeTemplate likeTemplate = dialect.getLikeTemplate();
         String str = likeTemplate.getFull();
-                //"CONCAT(''%'',#'{'{0}'}',''%'') ";
         if (all) {
             return format(str, named);
         }
@@ -233,13 +240,11 @@ public class DynamicSql {
             return format(str, analyeNamed.getNamedFull());
         }
         str = likeTemplate.getRight();
-                //" CONCAT(#'{'{0}'}',''%'') ";
         if (right) {
             analyeNamed.setNamedFull(named.substring(0,named.length()-1));
             return format(str, analyeNamed.getNamedFull());
         }
         str = likeTemplate.getLeft();
-                //"CONCAT(''%'',#'{'{0}'}') ";
         if (left) {
             analyeNamed.setNamedFull(named.substring(1));
             return format(str, analyeNamed.getNamedFull());
