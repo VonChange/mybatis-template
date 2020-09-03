@@ -112,6 +112,9 @@ public class DynamicSql {
     }
     private static String ifNull(String model,Dialect dialect){
         SqlParamResult sqlParamResult = getParamFromModel(model,dialect);
+        if(model.startsWith("@")){
+               return sqlParamResult.getNewSql().substring(1);
+        }
         StringBuilder sb= new StringBuilder();
         for (String param:sqlParamResult.getParam()) {
             sb.append(format("@com.vonchange.mybatis.tpl.MyOgnl@isNotEmpty({0}) and ",param));
@@ -220,7 +223,16 @@ public class DynamicSql {
         if ("like".equalsIgnoreCase(analyeNamed.getCondition())){
             named = like(analyeNamed,dialect);
         }
-        String content = format(" {0} {1} {2} {3} ", analyeNamed.getLink(), analyeNamed.getColumn(), analyeNamed.getCondition(), named);
+        boolean ifNullFlag=true;
+        String link = analyeNamed.getLink();
+        if(analyeNamed.getLink().startsWith("@")){
+            ifNullFlag=false;
+            link=link.substring(1);
+        }
+        String content = format(" {0} {1} {2} {3} ", link, analyeNamed.getColumn(), analyeNamed.getCondition(), named);
+        if(!ifNullFlag){
+            return content.substring(1);
+        }
         String ifStr = format("<if test=\"@com.vonchange.mybatis.tpl.MyOgnl@isNotEmpty({0})\">", analyeNamed.getNamedFull());
         return format("{0} {1} </if>", ifStr, content);
     }
