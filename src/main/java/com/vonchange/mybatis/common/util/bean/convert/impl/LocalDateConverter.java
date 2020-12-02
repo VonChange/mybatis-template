@@ -56,6 +56,9 @@ public class LocalDateConverter extends TypeConvertCommon<LocalDate> implements 
 			return TimeUtil.fromMilliseconds(((Timestamp)value).getTime()).toLocalDate();
 		}
 		if (value instanceof Date) {
+			if(value instanceof java.sql.Date){
+				return ((java.sql.Date) value).toLocalDate();
+			}
 			return TimeUtil.fromDate((Date) value).toLocalDate();
 		}
 		if (value instanceof Number) {
